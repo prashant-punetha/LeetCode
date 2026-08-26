@@ -7,7 +7,11 @@ public:
         int d1=min(ay2,by2)-max(ay1,by1);
 
         int d2=min(ax2,bx2)-max(ax1,bx1);
-        int d3=d2*d1;
+        int d3=0;
+        if(d2>0&&d1>0)
+        {
+            d3=d2*d1;
+        }
         
         return (area1+area2)-d3;
         }
