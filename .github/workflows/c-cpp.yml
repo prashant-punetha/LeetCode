@@ -13,11 +13,17 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    - name: configure
-      run: ./configure
-    - name: make
-      run: make
-    - name: make check
-      run: make check
-    - name: make distcheck
-      run: make distcheck
+    - name: Compile all C/C++ solutions
+      run: |
+        set -euo pipefail
+        cat > "$RUNNER_TEMP/leetcode_prelude.hpp" <<'EOF'
+        #include <bits/stdc++.h>
+        using namespace std;
+        EOF
+        find . -type f \( -name "*.c" -o -name "*.cpp" \) -print0 | while IFS= read -r -d '' file; do
+          if [[ "$file" == *.c ]]; then
+            gcc -std=c11 -fsyntax-only -include stdbool.h -include math.h "$file"
+          else
+            g++ -std=c++17 -fsyntax-only -include "$RUNNER_TEMP/leetcode_prelude.hpp" "$file"
+          fi
+        done
