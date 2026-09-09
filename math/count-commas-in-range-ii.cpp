@@ -1,12 +1,12 @@
 class Solution {
 public:
     long long countCommas(long long n) {
-
-        if (n <= 999) {
-            return 0;
+        long long total = 0;
+        long long place = 1000;
+        while (n >= place) {
+            total += (n - place + 1);
+            place *= 1000;
         }
-        return n - 999;
+        return total;
     }
 };
-
-
